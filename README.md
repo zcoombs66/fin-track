@@ -10,3 +10,6 @@ Github Captain	    Coombs	Zachary	   zbc34515@uga.edu
 
 Financial App that tracks a students transaction history 
 Based on this history, stocks will be suggested to the user to invest in
+
+
+Api: https://site.financialmodelingprep.com/developer/docs/stable/search-company-screener
