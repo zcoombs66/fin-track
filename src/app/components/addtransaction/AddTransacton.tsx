@@ -1,10 +1,13 @@
 import './AddTransaction.css';
+import logo from "../../assets/logo.png"
+import Image from "next/image"
+
 
 export default function AddTransaction() {
     return (
         <div className='add-transaction-container'>
             <div className="header-container">
-                <img src="" alt="image-placeholder" />
+                <Image src={logo} alt="image-placeholder" className='h-8 w-auto' />
                 <button>Log Out</button>
             </div>
             <div className='form-container'>
