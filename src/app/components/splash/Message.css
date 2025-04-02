@@ -1,0 +1,14 @@
+.message-container {
+    background-color: white;
+    padding: 30px;
+}
+
+h1 {
+    font-size: 1em;
+    color: black;
+}
+
+p {
+    font-size: .75em;
+    color: rgb(156, 156, 156);
+}

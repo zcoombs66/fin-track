@@ -1,0 +1,40 @@
+.welcome-container {
+    background-color: rgb(243, 243, 243);  
+    padding: 100px;
+    text-align: center;
+}
+
+.welcome-container h1 {
+    font-size: 3em;
+    color: rgb(31, 31, 31);
+    font-weight: 700;
+}
+
+.welcome-container h2 {
+    font-size: 1.5em;
+    color: rgb(156, 156, 156);
+    font-weight: 50;
+}
+
+
+.login-container {
+    justify-content: space-between;
+}
+
+.login-container button {
+    padding: 3px;
+    color: rgb(31, 31, 31);;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: black;
+    margin: 5px;
+    background-color: rgb(221, 221, 221);
+}
+
+.login-container button:hover {
+    background-color: rgb(31, 31, 31);
+    color: white;
+
+}

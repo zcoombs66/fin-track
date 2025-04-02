@@ -1,0 +1,50 @@
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    color: black;
+    padding: 15px;
+    font-size: small;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.links-container {
+    justify-content: space-between;
+}
+
+.links-container button {
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px
+
+}
+
+.links-container button:hover {
+    background-color: rgb(243, 243, 243);
+}
+
+.login-container {
+    justify-content: space-between;
+}
+
+.login-container button {
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: black;
+    margin: 5px;
+    background-color: rgb(221, 221, 221);
+    font-size: small;
+}
+
+.login-container button:hover {
+    background-color: rgb(31, 31, 31);
+    color: white;
+
+}
