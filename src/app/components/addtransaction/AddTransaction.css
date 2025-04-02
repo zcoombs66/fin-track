@@ -2,8 +2,7 @@
     background-color: rgb(243, 243, 243);
     color: black;
     display: flex;
-    justify-content: space-around;
-    flex-direction: column;
+    flex-direction: column;   
 }
 
 .header-container {
@@ -11,7 +10,7 @@
     flex-direction: row;
     justify-content: space-between;
     background-color: white;
-    padding: 2em;
+    padding: 2em;    
 }
 
 .header-container * {
@@ -29,14 +28,16 @@
 
 .form-container {
     padding: 2em;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: space-around;
 }
 
 .form-container h1 {
     font-size: 3em;
     font-weight: 700;
+    text-align: center;
 }
 
 .form-container form {
@@ -47,8 +48,7 @@
     background-color: white;
     display: flex;
     flex-direction: column;
-    text-align: left;
-    
+    text-align: left;    
 }
 
 .radio-container label, input {
@@ -62,4 +62,26 @@ input {
     border-radius: .5em;
     padding: .5em;
     color: rgb(173, 173, 173);
+}
+
+.add-transaction-button-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.add-transaction-button-container button {
+    background-color: rgb(219, 219, 219);
+    border-radius: .5em;
+    border-color: rgb(64, 64, 64);
+    border-width: .1em;
+    padding: .5em;
+    padding-left: 2em;
+    padding-right: 2em;
+    margin: 1em;
+
+}
+
+.add-transaction-button-container button:hover {
+    background-color: black;
+    color: white;
 }

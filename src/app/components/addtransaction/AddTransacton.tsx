@@ -10,7 +10,6 @@ export default function AddTransaction() {
             <div className='form-container'>
                 <h1>Add Transaction</h1>
                 <form>
-
                     <label htmlFor="ammount">Ammount</label>
                     <input 
                         name="ammount"
@@ -34,7 +33,12 @@ export default function AddTransaction() {
                         type="text" 
                         placeholder="tag / notes here"
                     />
+                   <div className='add-transaction-button-container'>
+                        <button type='submit'>Submit</button>
+                        <button type='reset'>Cancel</button>
+                    </div> 
                 </form>
+                
             </div>
         </div>
     )
