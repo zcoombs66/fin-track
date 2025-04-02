@@ -1,0 +1,65 @@
+.add-transaction-container {
+    background-color: rgb(243, 243, 243);
+    color: black;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: white;
+    padding: 2em;
+}
+
+.header-container * {
+    padding: .5em;
+}
+
+.header-container button {
+    background-color: red;
+    border-radius: .5em;
+}
+
+.header-container button:hover {
+    background-color: rgb(204, 0, 0);
+}
+
+.form-container {
+    padding: 2em;
+    text-align: center;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.form-container h1 {
+    font-size: 3em;
+    font-weight: 700;
+}
+
+.form-container form {
+    padding: 2em;
+    border-radius: .5em;
+    border-width: .1em;
+    border-color: rgb(214, 214, 214);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    
+}
+
+.radio-container label, input {
+    margin: .5em;
+
+}
+
+input {
+    border-color: rgb(243, 243, 243);
+    border-width: .1em;
+    border-radius: .5em;
+    padding: .5em;
+    color: rgb(173, 173, 173);
+}
