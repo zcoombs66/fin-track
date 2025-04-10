@@ -13,17 +13,17 @@ export default function AddTransaction() {
             <div className='form-container'>
                 <h1>Add Transaction</h1>
                 <form>
-                    <label htmlFor="ammount">Ammount</label>
+                    <label htmlFor="amount">Amount</label>
                     <input 
-                        name="ammount"
+                        name="amount"
                         type="text" 
                         placeholder="$ 0.00"
                     />
                     <div className="radio-container">
                         <label htmlFor="debit">Debit</label>
-                        <input type="radio" value="Debit"/>
+                        <input type="radio" value="Debit" name="debCred"/>
                         <label htmlFor="credit">Credit</label>
-                        <input type="radio" value="Credit"/>
+                        <input type="radio" value="Credit" name="debCred"/>
                     </div>
                     <input 
                         name="date"
