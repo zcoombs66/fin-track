@@ -1,0 +1,84 @@
+.sign-container {
+    background-color: rgb(243, 243, 243);
+    color: black;
+    display: flex;
+    flex-direction: column;   
+}
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: white;
+    padding: 2em;    
+}
+
+.header-container * {
+    padding: .5em;
+}
+
+.header-container button {
+    background-color: red;
+    border-radius: .5em;
+}
+
+.header-container button:hover {
+    background-color: rgb(204, 0, 0);
+}
+
+.form-container {
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container h1 {
+    font-size: 3em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.form-container form {
+    padding: 2em;
+    border-radius: .5em;
+    border-width: .1em;
+    border-color: rgb(214, 214, 214);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    text-align: left;    
+}
+
+
+
+input {
+    border-color: rgb(243, 243, 243);
+    border-width: .1em;
+    border-radius: .5em;
+    padding: .5em;
+    color: rgb(173, 173, 173);
+}
+
+.sign-button-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.sign-button-container button {
+    background-color: rgb(219, 219, 219);
+    border-radius: .5em;
+    border-color: rgb(64, 64, 64);
+    border-width: .1em;
+    padding: .5em;
+    padding-left: 2em;
+    padding-right: 2em;
+    margin: 1em;
+
+}
+
+.sign-button-container button:hover {
+    background-color: black;
+    color: white;
+}
