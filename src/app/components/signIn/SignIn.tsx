@@ -11,7 +11,7 @@ export default function SignIn() {
                 
             </div>
             <div className='form-container'>
-                <h1>Sign Up</h1>
+                <h1>Sign In</h1>
                 <form>
                     
                    <div className='sign-button-container'>
