@@ -15,7 +15,7 @@ export default function Home() {
      <Splash />
      <br />
      <AddTransaction />
-     <SignUp />
+     
     </div>
   );
 }
