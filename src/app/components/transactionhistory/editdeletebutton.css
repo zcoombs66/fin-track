@@ -1,0 +1,16 @@
+.edit-delete-button-container {
+}
+
+.edit-delete-button-container button {
+    background-color: rgb(207, 207, 207);
+    border-radius: .5em;
+    border-width: .075em;
+    border-color: black;
+    padding: .1em;
+    margin: .5em;
+    
+}
+
+.edit-delete-button-container button:hover {
+    background-color: rgb(180, 180, 180);
+}

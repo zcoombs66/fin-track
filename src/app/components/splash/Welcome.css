@@ -1,7 +1,8 @@
 .welcome-container {
-    background-color: rgb(243, 243, 243);  
+    background-color: var(--background);  
     padding: 100px;
     text-align: center;
+    position: relative;
 }
 
 .welcome-container h1 {
@@ -37,4 +38,66 @@
     background-color: rgb(31, 31, 31);
     color: white;
 
+}
+
+@keyframes addTransactionImage {
+    0% {
+        opacity: 0;
+        transform: translateY(-100px) rotate(0deg) rotate3d(0,0,0, 0deg) translateX(50px); 
+    }
+    /*
+    33% {
+        transform: translateY(-133px) rotate3d(0,1,0, 30deg) translateX(50px);
+    }
+    66% {
+        transform: translateY(-166px) rotate3d(0,1,0, -30deg) translateX(50px);
+    }
+    */
+    100% {
+        opacity: 1;
+        transform: translateY(-200px) rotate3d(0,1,0, 0deg) rotate(-10deg) translateX(50px) ; 
+    }
+}
+
+.image-container {
+    position: absolute;
+    perspective: 1000px;
+    animation: addTransactionImage 2s ease-in-out both;
+    transform-style: preserve-3d;
+    transform-origin: center;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes h1Animation {
+    0% {
+        opacity: 0;
+        transform: translate(0px,0px);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(100px,100px) rotateZ(0deg);
+    }
+}
+
+.welcome-container h1 {
+    position: relative;
+    left: 0px;
+    right: 0px;
+    animation: h1Animation;
+}
+
+@keyframes h2Animation {
+
+}
+
+.welcome-container h2 {
+    animation: h2Animation;
+}
+
+@keyframes loginContainerAnimation {
+    
+}
+
+.welcome-container .login-container {
+    animation: loginContainerAnimation;
 }

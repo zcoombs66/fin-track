@@ -1,0 +1,43 @@
+.transaction-container {
+    display: flex;
+    flex-direction: row;
+    padding: .05em;
+    background-color: white;
+    border-radius: .5em;
+    border-width: .1em;
+    border-color: rgb(156, 156, 156);;
+    justify-content: space-between;
+
+}
+
+.transaction-container > * {
+    padding: .5em;
+
+}
+
+.information-container {
+   text-align: left;
+   
+}
+
+.information-container > * {
+    margin: .75em;
+}
+
+.information-container h1 {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.transaction-information-container h2 {
+    color: rgb(156, 156, 156);
+}
+
+.image-and-info-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.image-and-info-container > * {
+    margin: 1em;
+}

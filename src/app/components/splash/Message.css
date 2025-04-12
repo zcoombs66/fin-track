@@ -1,5 +1,5 @@
 .message-container {
-    background-color: white;
+    background-color: var(--background);
     padding: 30px;
 }
 

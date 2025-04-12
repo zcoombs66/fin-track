@@ -1,0 +1,19 @@
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: white;
+    padding: 1em; 
+    border-bottom: .1rem solid rgb(240, 240, 240);
+ 
+}
+
+.header-container button {
+    background-color: red;
+    border-radius: .5em;
+    padding: .5em; 
+}
+
+.header-container button:hover {
+    background-color: rgb(204, 0, 0);
+}
