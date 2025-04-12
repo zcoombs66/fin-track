@@ -1,14 +1,26 @@
-"use client"
+import './Sign.css';
+import logo from "../../assets/logo.png"
+import Image from "next/image"
 
-import Form from "./Form"
-export default function Signin() {
+
+export default function SignIn() {
     return (
-        <div>
-            <h1>Sign in</h1>
-            <h2>Please login to continue to your account</h2>
-            <Form />
-            <label htmlFor="remember">keep me logged in</label>
-            <input type="checkbox" />
+        <div className='sign-container'>
+            <div className="header-container">
+                <Image src={logo} alt="image-placeholder" className='h-8 w-auto' />
+                
+            </div>
+            <div className='form-container'>
+                <h1>Sign In</h1>
+                <form>
+                    
+                   <div className='sign-button-container'>
+                        <button type='submit'>Submit</button>
+                        <button type='reset'>Cancel</button>
+                    </div> 
+                </form>
+                
+            </div>
         </div>
     )
 }
