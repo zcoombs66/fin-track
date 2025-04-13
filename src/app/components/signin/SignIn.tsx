@@ -1,9 +1,9 @@
 'use client'
 
 import './Sign.css';
-import Form from './Form';
 import LoginHeader from '../loginheader/LoginHeader';
 import { useRouter } from 'next/navigation';
+import Form from '../signIn/Form';
 
 const logoPath = '/logo.png';
 export default function SignIn() {
