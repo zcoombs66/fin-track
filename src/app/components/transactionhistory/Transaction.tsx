@@ -19,6 +19,9 @@ export default function Transaction({ transaction }: TransactionProps) {
     const { amount, depositWithdrawl, date, location, tagNotes } = transaction;
     
     const formattedAmount = `${depositWithdrawl ? '-' : '+'}$${amount}`;
+    const rawDate = date;
+    const [year, month, day] = rawDate.split("-");
+    const formattedDate = `${month}/${day}/${year}`;
     const logoPath = '/logo.png'
     
     return (
@@ -38,7 +41,7 @@ export default function Transaction({ transaction }: TransactionProps) {
                 </div>
             </div>
             <div className="date-contaienr">
-                <h1 className="font-semibold text-4xl">04/17/2025</h1>
+                <h1 className="font-semibold text-3xl">{formattedDate}</h1>
             </div>
         </div>
           

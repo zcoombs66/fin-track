@@ -21,7 +21,7 @@ export default function AddTransaction() {
     }>({
         amount: 0.00,
         depositWithdrawl: true,
-        date: `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
+        date: "mm/dd/yyyy", // `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
         location: "Store",
         tagNotes: "add tags and notes here"
 
