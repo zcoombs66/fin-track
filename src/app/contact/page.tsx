@@ -1,9 +1,9 @@
-import SignIn from "../components/signin/SignIn"
+import Contact from "../components/contact/Contact";
 
 export default function Home() {
     return (
         <div>
-            <SignIn />
+            <Contact />
         </div>
     )
 }

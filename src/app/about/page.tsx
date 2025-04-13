@@ -1,9 +1,9 @@
-import SignIn from "../components/signin/SignIn"
+import About from "../components/about/About";
 
 export default function Home() {
     return (
         <div>
-            <SignIn />
+            <About />
         </div>
     )
 }

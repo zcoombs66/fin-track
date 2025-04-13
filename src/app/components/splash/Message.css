@@ -3,7 +3,7 @@
     padding: 30px;
 }
 
-h1 {
+.message-container h1 {
     font-size: 1em;
     color: black;
 }

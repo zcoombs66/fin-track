@@ -16,13 +16,13 @@ export default function NavBar() {
             <Image src={logoPath} alt="img-placeholder" width={40} height={10}/>
             <div className='button-container'>
                 <div className='links-container'>
-                    <button>Home</button>
-                    <button>About</button>
-                    <button>Contact</button>
+                    <button onClick={() => router.push('/')}>Home</button>
+                    <button onClick={() => router.push('/about')}>About</button>
+                    <button onClick={() => router.push('/contact')}>Contact</button>
                 </div>
                 <div className='login-container'>
-                    <button onClick={() => router.push('/components/signIn')}>Sign In</button>
-                    <button onClick={() => router.push('/components/signUp')}>Register</button>
+                    <button onClick={() => router.push('/signin')}>Sign In</button>
+                    <button onClick={() => router.push('/signup')}>Register</button>
                 </div>
             </div>
         </div>

@@ -5,12 +5,14 @@
     flex-direction: column;   
 }
 
+/* Header */
+
 .header-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     background-color: white;
-    padding: 2em;    
+    padding: 1em;    
 }
 
 .header-container * {
@@ -18,40 +20,45 @@
 }
 
 .header-container button {
-    background-color: red;
+    background-color: rgb(0, 0, 0);
     border-radius: .5em;
+    margin: .5em;
 }
 
 .header-container button:hover {
-    background-color: rgb(204, 0, 0);
+    background-color: rgb(213, 213, 213);
 }
 
-.form-container {
-    padding: 2em;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.form-container h1 {
-    font-size: 3em;
-    font-weight: 700;
-    text-align: center;
-}
+/* Form */
 
 .form-container form {
     padding: 2em;
     border-radius: .5em;
     border-width: .1em;
     border-color: rgb(214, 214, 214);
-    background-color: white;
+    background-color: var(--background);
     display: flex;
     flex-direction: column;
     text-align: left;    
 }
 
+.form-container form input {
+    border-color: rgb(200, 200, 200);
+    margin: .5em;
+}
 
+.form-container form label {
+    background-color: rgb(196, 196, 196);
+    width: fit-content;
+    border-radius: .25em;
+    margin: .5m;
+}
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;       
+}
 
 input {
     border-color: rgb(243, 243, 243);
@@ -61,10 +68,7 @@ input {
     color: rgb(173, 173, 173);
 }
 
-.sign-button-container {
-    display: flex;
-    flex-direction: row;
-}
+
 
 .sign-button-container button {
     background-color: rgb(219, 219, 219);
@@ -72,9 +76,10 @@ input {
     border-color: rgb(64, 64, 64);
     border-width: .1em;
     padding: .5em;
-    padding-left: 2em;
-    padding-right: 2em;
+    padding-left: 9em;
+    padding-right: 9em;
     margin: 1em;
+    text-align: center;
 
 }
 

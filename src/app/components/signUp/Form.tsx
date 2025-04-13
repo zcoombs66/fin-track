@@ -7,10 +7,14 @@ export default function Form() {
     const [form, setForm] = useState<{
         username: string;
         password: string;
+        firstName: string;
+        lastName: string;
         remember: boolean;
     }>({
         username: 'fin@gmail.com',
         password:'Password',
+        firstName: 'John',
+        lastName: 'Smith',
         remember: false
     })
 
@@ -47,6 +51,20 @@ export default function Form() {
                     value={form.password}
                     onChange={handleChange}
                 />
+                <label htmlFor="firstName">First Name</label>
+                <input 
+                    type="name" 
+                    name="firstName"
+                    value={form.firstName}
+                    onChange={handleChange}
+                />
+                <label htmlFor="password">Last Name</label>
+                <input 
+                    type="name" 
+                    name="lastName"
+                    value={form.lastName}
+                    onChange={handleChange}
+                />
                 <div className="flex-row m-2 p-2">
                     <input
                         type="checkbox"
@@ -55,7 +73,7 @@ export default function Form() {
                         onChange={handleChange}
                         className="p-2"
                     />
-                    <label htmlFor="remember" className="p-2 !bg-gray-100">Keep me logged in</label>
+                    <label htmlFor="remember" className="p-2 !bg-gray-100">I have read and accept the Terms of Service</label>
                 </div>
             </form>
         </div>

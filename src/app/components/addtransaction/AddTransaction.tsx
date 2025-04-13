@@ -1,16 +1,16 @@
 'use client'
 
 import './addtransaction.css';
-// import logo from "../../assets/logo.png"
-import Image from "next/image"
-import Header from '../transactionheader/TransactionHeader';
 import { useState } from 'react';
 import Link from 'next/link';
+import TransactionHeader from '../transactionheader/TransactionHeader';
+import { useRouter } from 'next/navigation';
 
 const logoPath = "/logo.png";
 
 export default function AddTransaction() {
     const current = new Date();
+    const router = useRouter();
     
     const [form, setForm] = useState<{
         amount: number; 
@@ -44,7 +44,7 @@ export default function AddTransaction() {
     
     return (
         <div className='add-transaction-container'>
-            <Header />
+            <TransactionHeader />
             <div className='form-container'>
                 <h1>Add Transaction</h1>
                 <form onSubmit={handleSubmit}>
@@ -62,6 +62,7 @@ export default function AddTransaction() {
                         value="true"
                         checked={form.debitCredit === true}
                         onChange={handleChange}
+                        className='radio-input'
                         />
                         Debit
                     </label>
@@ -72,6 +73,7 @@ export default function AddTransaction() {
                         value="false"
                         checked={form.debitCredit === false}
                         onChange={handleChange}
+                        className='radio-input'
                         />
                         Credit
                     </label>
@@ -97,9 +99,7 @@ export default function AddTransaction() {
                     />
                    <div className='add-transaction-button-container'>
                         <button type='submit'>Submit</button>
-                        <Link href={'/transactionhistory'}>
-                            <button type='reset'>Cancel</button>
-                        </Link>
+                        <button onClick={() => router.push('/transactionhistory')} type='reset'>Cancel</button>
                     </div> 
                 </form>
                 
