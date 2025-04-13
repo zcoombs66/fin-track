@@ -5,21 +5,68 @@
     position: relative;
 }
 
-.welcome-container h1 {
+@keyframes title-animation {
+    0% {
+      transform: translateY(15px);
+      transform-origin: 50% 50%;
+      text-shadow: none;
+    }
+    100% {
+      transform: translateY(-5px);
+      transform-origin: 50% 50%;
+      text-shadow: 0 1px 0 #cccccc, 0 2px 0 #cccccc, 0 3px 0 #cccccc, 0 4px 0 #cccccc, 0 5px 0 #cccccc, 0 6px 0 #cccccc, 0 7px 0 #cccccc, 0 8px 0 #cccccc, 0 9px 0 #cccccc, 0 50px 30px rgba(0, 0, 0, 0);
+    }
+  }
+  
+
+.welcome-container .title-container {
     font-size: 3em;
     color: rgb(31, 31, 31);
     font-weight: 700;
+	animation: title-animation 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
-.welcome-container h2 {
+@keyframes slide-in-right {
+    0% {
+      transform: translateX(1000px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+
+
+
+.welcome-container .h-2-container {
     font-size: 1.5em;
     color: rgb(156, 156, 156);
     font-weight: 50;
+    animation: slide-in-right 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s both;
 }
 
+.login-button {
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: black;
+    margin: 5px;
+    background-color: rgb(221, 221, 221);
+    font-size: small;
+}
 
-.login-container {
+.login-button:hover {
+    background-color: rgb(31, 31, 31);
+    color: white;
+}
+
+.login-button-container {
     justify-content: space-between;
+    animation: slide-in-right 2.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) 1s both;
 }
 
 .login-container button {
@@ -62,7 +109,7 @@
 .image-container {
     position: absolute;
     perspective: 1000px;
-    animation: addTransactionImage 2s ease-in-out both;
+    animation: addTransactionImage 2s ease-in-out 3s both;
     transform-style: preserve-3d;
     transform-origin: center;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
