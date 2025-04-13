@@ -18,7 +18,7 @@ export default function SignIn() {
                     <h2 className='text-gray-400 text-left m-4'>Please login to continue to your account</h2>
                    <div className='sign-button-container flex-col '>
                         <Form />
-                        <button type='submit' className='w-fill'>Sign in</button>
+                        <button type='submit'  onClick={() => router.push('/transactionhistory')} className='w-fill'>Register</button>
                     </div>
                 </div>
             </div>     
