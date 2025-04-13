@@ -7,7 +7,7 @@
 
 /* Header */
 
-.header-container {
+.login-header-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -15,17 +15,17 @@
     padding: 1em;    
 }
 
-.header-container * {
+.login-header-container * {
     padding: .5em;
 }
 
-.header-container button {
+.login-header-container button {
     background-color: rgb(0, 0, 0);
     border-radius: .5em;
     margin: .5em;
 }
 
-.header-container button:hover {
+.login-header-container button:hover {
     background-color: rgb(213, 213, 213);
 }
 

@@ -1,13 +1,19 @@
 .transaction-container {
     display: flex;
     flex-direction: row;
-    padding: .05em;
+    margin: 2em;
     background-color: white;
     border-radius: .5em;
     border-width: .1em;
-    border-color: rgb(156, 156, 156);;
+    border-color: rgb(208, 208, 208);;
     justify-content: space-between;
 
+}
+
+.transaction-container:hover{
+    background-color: rgb(232, 232, 232);
+    transform: translateY(-5px);
+    border-color: rgb(153, 153, 153);
 }
 
 .transaction-container > * {

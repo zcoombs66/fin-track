@@ -11,7 +11,7 @@ export default function LoginHeader() {
     const router = useRouter();
 
     return (
-        <div className="header-container">
+        <div className="login-header-container">
             <Image 
                 src={logoPath} 
                 alt="image-placeholder" 
