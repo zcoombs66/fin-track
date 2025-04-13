@@ -14,13 +14,13 @@ export default function AddTransaction() {
     
     const [form, setForm] = useState<{
         amount: number; 
-        debitCredit: boolean; 
+        depositWithdrawl: boolean; 
         date: string; 
         location: string;
         tagNotes: string;
     }>({
         amount: 0.00,
-        debitCredit: true,
+        depositWithdrawl: true,
         date: `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
         location: "Store",
         tagNotes: "add tags and notes here"
@@ -31,15 +31,37 @@ export default function AddTransaction() {
         const {name, value, type} = e.target;
         setForm({
             ...form,
-            [name]: type === 'radio' && name === 'debitCredit' ? value === 'true' : value
+            [name]: type === 'radio' && name === 'depositWithdrawl' ? value === 'true' : value
         })
     }
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         // Hanle form information here
-            console.log("Form submitted: ", form)
+        console.log("Form submitted: ", form)
+
+        try {
+            const response = await fetch('/api/transactions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(form),
+
+            });
+
+            if(!response.ok) {
+                throw new Error (`Failed to submit: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log("Transaction saved: ", data);
+
+            router.push('/transactionhistory');
+        } catch (error) {
+            console.error('Error submitting transaction', error);
+        }
     }
     
     return (
@@ -58,24 +80,24 @@ export default function AddTransaction() {
                     <label>
                         <input 
                         type="radio" 
-                        name="debitCredit"
+                        name="depositWithdrawl"
                         value="true"
-                        checked={form.debitCredit === true}
+                        checked={form.depositWithdrawl === true}
                         onChange={handleChange}
                         className='radio-input'
                         />
-                        Debit
+                        Deposit
                     </label>
                     <label>
                         <input 
                         type="radio" 
-                        name="debitCredit"
+                        name="depositWithdrawl"
                         value="false"
-                        checked={form.debitCredit === false}
+                        checked={form.depositWithdrawl === false}
                         onChange={handleChange}
                         className='radio-input'
                         />
-                        Credit
+                        Withdrawl
                     </label>
                     </div>
                     Date
