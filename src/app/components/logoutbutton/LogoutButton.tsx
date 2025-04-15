@@ -1,4 +1,5 @@
 'use client'
+import './logoutbutton.css';
 
 import { useRouter } from "next/navigation"
 
