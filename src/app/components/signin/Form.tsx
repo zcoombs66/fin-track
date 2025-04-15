@@ -2,6 +2,9 @@
 
 import React from "react"
 import { useState } from "react";
+import NextAuth from "next-auth";
+import { SessionTokenError } from "@auth/core/errors";
+import { doCredentialLogin } from "@/app/actions";
 
 export default function Form() {
     const [form, setForm] = useState<{
@@ -9,10 +12,10 @@ export default function Form() {
         password: string;
         remember: boolean;
     }>({
-        username: 'fin@gmail.com',
-        password:'Password',
-        remember: false
-    })
+        username: '',
+        password:'',
+        remember: false,
+    });
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const {name, value, type} = e.target;
@@ -20,11 +23,28 @@ export default function Form() {
         setForm({
             ...form,
             [name] : type === "checkbox" ? isChecked : value
-        })
+        });
     }
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
+
+        try {
+            const form = new FormData(e.currentTarget);
+            const response = await doCredentialLogin(form);
+
+            if (response?.error) {
+                console.error(response.error);
+            }
+
+
+        } catch(error: any) {
+            console.error(error);
+            
+        }
+
+
+
 
         // Handle signin here
         console.log("Form Submitted: ", form);
@@ -39,6 +59,8 @@ export default function Form() {
                     name="username"
                     value={form.username}
                     onChange={handleChange}
+                    placeholder='fin@gmail.com'
+                    required
                 />
                 <label htmlFor="password">Password</label>
                 <input 
@@ -46,6 +68,8 @@ export default function Form() {
                     name="password"
                     value={form.password}
                     onChange={handleChange}
+                    placeholder="Password"
+                    required
                 />
                 <div className="flex-row m-2 p-2">
                     <input
@@ -57,6 +81,8 @@ export default function Form() {
                     />
                     <label htmlFor="remember" className="p-2 !bg-gray-100">Keep me logged in</label>
                 </div>
+                
+                <button type="submit">Sign In</button>
             </form>
         </div>
     )

@@ -1,6 +1,6 @@
 import mongoose, {Schema, Document, Model} from "mongoose";
 
-interface TTransaction extends Document {
+export interface TTransaction {
     amount: number; 
     debitCredit: boolean; 
     date: string; 
@@ -18,3 +18,4 @@ const transactionSchema = new Schema<TTransaction>({
 
 const Transaction: Model<TTransaction> = mongoose.models.Transaction || mongoose.model<TTransaction>("Transaction", transactionSchema);
 export default Transaction;
+export {transactionSchema};
