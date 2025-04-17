@@ -5,14 +5,17 @@ import { useState } from "react";
 import NextAuth from "next-auth";
 import { SessionTokenError } from "@auth/core/errors";
 import { doCredentialLogin } from "@/app/actions";
+import { useRouter } from "next/navigation";
 
 export default function Form() {
+    const router = useRouter();
+
     const [form, setForm] = useState<{
-        username: string;
+        email: string;
         password: string;
         remember: boolean;
     }>({
-        username: '',
+        email: '',
         password:'',
         remember: false,
     });
@@ -34,8 +37,12 @@ export default function Form() {
             const response = await doCredentialLogin(form);
 
             if (response?.error) {
-                console.error(response.error);
+                alert(response.error);
+            } else {
+                console.log("Logged In");
+                router.push("/transactionhistory");
             }
+            
 
 
         } catch(error: any) {
@@ -47,17 +54,17 @@ export default function Form() {
 
 
         // Handle signin here
-        console.log("Form Submitted: ", form);
+        console.log("Form Submitted:H ", form);
     }
     
     
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
+                <label htmlFor="email">Email</label>
                 <input
-                    name="username"
-                    value={form.username}
+                    name="email"
+                    value={form.email}
                     onChange={handleChange}
                     placeholder='fin@gmail.com'
                     required

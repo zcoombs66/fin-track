@@ -13,17 +13,17 @@ export default function AddTransaction() {
     const router = useRouter();
     
     const [form, setForm] = useState<{
-        amount: number; 
+        amount: number | string; 
         depositWithdrawl: boolean; 
         date: string; 
         location: string;
         tagNotes: string;
     }>({
-        amount: 0.00,
+        amount: "",
         depositWithdrawl: true,
-        date: "mm/dd/yyyy", // `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
-        location: "Store",
-        tagNotes: "add tags and notes here"
+        date: "", // `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
+        location: "",
+        tagNotes: ""
 
     })
 
@@ -37,9 +37,15 @@ export default function AddTransaction() {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        
+
+        const preparedForm = {
+            ...form,
+            amount: form.depositWithdrawl ? Math.abs(Number(form.amount)) : -Math.abs(Number(form.amount)), 
+        }
 
         // Hanle form information here
-        console.log("Form submitted: ", form)
+        console.log("Form submitted: ", preparedForm)
 
         try {
             const response = await fetch('/api/transactions', {
@@ -47,7 +53,7 @@ export default function AddTransaction() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(form),
+                body: JSON.stringify(preparedForm),
 
             });
 
@@ -74,7 +80,10 @@ export default function AddTransaction() {
                     <input 
                         name='amount'
                         value={form.amount}
+                        type='number'
                         onChange={handleChange}
+                        placeholder="0.00"
+                        required
                     />
                     <div className="radio-container">
                     <label>
@@ -106,18 +115,23 @@ export default function AddTransaction() {
                         type='date'
                         value={form.date}
                         onChange={handleChange}
+                        required
                     />
                     Location
                     <input
                         name='location'
                         value={form.location}
                         onChange={handleChange}
+                        placeholder="Store"
+                        required
                     />
                     <label htmlFor="tag / notes">Tag / Notes</label>
                     <input 
                         name='tagNotes'
                         value={form.tagNotes}
                         onChange={handleChange}
+                        placeholder="tag / notes"
+                        required
                     />
                    <div className='add-transaction-button-container'>
                         <button type='submit'>Submit</button>

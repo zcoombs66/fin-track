@@ -1,5 +1,6 @@
 'use client';
 
+import { auth } from '@/auth';
 import { useEffect, useState } from 'react';
 import Transaction from './Transaction';
 
@@ -14,7 +15,8 @@ type Transaction = {
 
 
 
-export default function TransactionList() {
+export default  function TransactionList({userEmail}: {userEmail?: string}) {
+    
 
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
@@ -27,7 +29,7 @@ export default function TransactionList() {
 
                 console.log(rawData);
 
-                const parsedTransactions: Transaction[] = rawData.transactions.map((item: any) => ({
+                const parsedTransactions: Transaction[] = rawData.map((item: any) => ({
                     _id: item._id,
                     amount: item.amount,
                     depositWithdrawl: item.depositWithdrawl,

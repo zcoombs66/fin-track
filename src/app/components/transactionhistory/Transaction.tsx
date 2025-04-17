@@ -18,7 +18,7 @@ type TransactionProps = {
 export default function Transaction({ transaction }: TransactionProps) {
     const { amount, depositWithdrawl, date, location, tagNotes } = transaction;
     
-    const formattedAmount = `${depositWithdrawl ? '-' : '+'} $${amount}`;
+    const formattedAmount = `${amount < 0 ? '-' : '+'} $${Math.abs(amount)}`;
     const rawDate = date;
     const [year, month, day] = rawDate.split("-");
     const formattedDate = `${month}/${day}/${year}`;

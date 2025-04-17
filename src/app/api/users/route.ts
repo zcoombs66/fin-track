@@ -20,6 +20,9 @@ export async function POST(request: NextRequest) {
 
     const {firstName, lastName, email, password, transactions} = await request.json();
     await connectMongoDB();
+    const existing = await User.findOne({email});
+    if(existing) return new Response("User exists", {status:400});
+
     const hashedPassword = await bcrypt.hash(password, 5);
     const newUser = {
         firstName,

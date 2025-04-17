@@ -3,6 +3,8 @@ import Transaction from "@/models/transactionSchema";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import mongoose from "mongoose";
+import { auth } from "@/auth";
+import User from "@/models/UserSchema";
 
 interface RouteParams {
     params: {id: string};
