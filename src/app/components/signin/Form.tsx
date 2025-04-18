@@ -8,6 +8,8 @@ import { doCredentialLogin } from "@/app/actions";
 import { useRouter } from "next/navigation";
 
 export default function Form() {
+    const [error, setError] = useState('');
+
     const router = useRouter();
 
     const [form, setForm] = useState<{
@@ -32,6 +34,7 @@ export default function Form() {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
 
+
         try {
             const form = new FormData(e.currentTarget);
             const response = await doCredentialLogin(form);
@@ -47,6 +50,7 @@ export default function Form() {
 
         } catch(error: any) {
             console.error(error);
+            setError("Check your Credentials");
             
         }
 
@@ -60,6 +64,7 @@ export default function Form() {
     
     return (
         <div>
+            {error && <p className="text-red-500"> {error}</p>}
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email">Email</label>
                 <input
