@@ -1,10 +1,13 @@
 'use client'
 
+import { errorToJSON } from "next/dist/server/render";
 import { useRouter } from "next/navigation";
 import React from "react"
 import { useState } from "react";
 
 export default function Form() {
+    const [error, setError] = useState('');
+
     const router = useRouter();
 
     const [form, setForm] = useState<{
@@ -36,8 +39,6 @@ export default function Form() {
         // Handle signin here
         console.log("Form Submitted: ", form);
 
-        
-
         try {
             const response = await fetch('/api/users', {
                 method: "POST",
@@ -47,7 +48,10 @@ export default function Form() {
                 body: JSON.stringify(form),
             });
 
-            if (!response.ok) {throw new Error('ERROR');}
+            if (!response.ok) {
+                // throw new Error('ERROR');
+                setError("An error occurrred");
+            }
 
             const data = await response.json();
             console.log("User added: ", data);
@@ -57,6 +61,7 @@ export default function Form() {
             
         } catch (error) {
             console.error("Error in CreateUser!", error);
+            setError("Cheack Credentials");
         }
         
 
@@ -65,6 +70,7 @@ export default function Form() {
     
     return (
         <div>
+            {error && <p className="text-red-500"> {error}</p>}
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email">Email</label>
                 <input
