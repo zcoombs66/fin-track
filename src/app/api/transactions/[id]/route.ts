@@ -26,17 +26,46 @@ export async function PUT(request:NextRequest, { params }:RouteParams) {
 }
 
 export async function DELETE(request: NextRequest,{ params }:RouteParams) {
+    const session = await auth();
+
+    if (!session || !session.user?.email) {
+        return NextResponse.json({ message: "Unauthorized"}, {status: 401});
+    }
+
+
     const { id } = await params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return NextResponse.json({ message: "Invalid ID format"}, { status: 400 });
     }
 
     await connectMongoDB();
-    const deletedItem = await Transaction.findByIdAndDelete(id);
 
-    if (!deletedItem) {
-        return NextResponse.json({ message: "Item not found"}, { status: 404 });
+    const user = await User.findOne({ email: session.user.email});
+    if (!user) {
+        return NextResponse.json({ message: "User not found"}, {status: 404});
     }
 
-    return NextResponse.json({ message: "Item deleted"}, { status: 200 });
+    const initialLength = user.transactions.length;
+    user.transactions = user.transactions.filter(
+        (eg) => eg._id!.toString() != id
+    );  
+
+    if (user.transactions.length === initialLength) {
+        return NextResponse.json({message: "Transaction not found" }, {status: 404});
+    }
+
+
+
+
+    await user.save();
+
+    return NextResponse.json({ message: "Transaction deleted"}, { status: 200})
+
+    // const deletedItem = await Transaction.findByIdAndDelete(id);
+
+    // if (!deletedItem) {
+    //     return NextResponse.json({ message: "Item not found"}, { status: 404 });
+    // }
+
+    // return NextResponse.json({ message: "Item deleted"}, { status: 200 });
 }
