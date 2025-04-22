@@ -31,14 +31,14 @@ export async function POST(request: NextRequest) {
     }
 
 
-    const { amount, debitCredit, date, location, tagNotes } = await request.json();
+    const { amount, debitCredit, date, location, tagNotes, imageSrc } = await request.json();
     await connectMongoDB();
 
     const user = await User.findOne({email: session.user.email});
     if(!user) return new Response("User not found", {status: 404});
  
 
-    user.transactions.push({amount, debitCredit, date, location, tagNotes });
+    user.transactions.push({amount, debitCredit, date, location, tagNotes, imageSrc });
     await user.save();
 
     return new Response(JSON.stringify(user.transactions), {status:201});

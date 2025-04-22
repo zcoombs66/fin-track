@@ -12,17 +12,19 @@ type TransactionProps = {
         date: string;
         location: string;
         tagNotes: string;
+        imageSrc: string;
     };
 };
 
 export default function Transaction({ transaction }: TransactionProps) {
-    const { amount, depositWithdrawl, date, location, tagNotes } = transaction;
+    const { amount, depositWithdrawl, date, location, tagNotes, imageSrc } = transaction;
     
     const formattedAmount = `${amount < 0 ? '-' : '+'} $${Math.abs(amount)}`;
     const rawDate = date;
     const [year, month, day] = rawDate.split("-");
     const formattedDate = `${month}/${day}/${year}`;
-    const logoPath = '/logo.png'
+    const logoPath = imageSrc;
+    console.log("IMAGE SRC IN TRANSAXTION", imageSrc)
     
     return (
         <div className="transaction-container">

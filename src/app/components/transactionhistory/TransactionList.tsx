@@ -12,6 +12,7 @@ type Transaction = {
     date: string; 
     location: string;
     tagNotes: string;
+    imageSrc: string;
 };
 
 type transactionListProps = {
@@ -38,6 +39,7 @@ export default function TransactionList({ userEmail, onBalanceChange }: { userEm
                     date: item.date,
                     location: item.location,
                     tagNotes: item.tagNotes,
+                    imageSrc: item.imageSrc,
                 }));
                 
                 const balance = parsedTransactions.reduce((acc, transaction) => {
