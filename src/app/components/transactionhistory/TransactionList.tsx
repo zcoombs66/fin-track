@@ -11,6 +11,7 @@ type Transaction = {
     date: string; 
     location: string;
     tagNotes: string;
+    imageSrc: string;
 };
 
 
@@ -36,6 +37,7 @@ export default  function TransactionList({userEmail}: {userEmail?: string}) {
                     date: item.date,
                     location: item.location,
                     tagNotes: item.tagNotes,
+                    imageSrc: item.imageSrc,
                 }));
 
                 setTransactions(parsedTransactions);

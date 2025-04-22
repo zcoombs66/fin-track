@@ -7,6 +7,7 @@ export interface TTransaction {
     date: string; 
     location: string;
     tagNotes: string;
+    imageSrc: string;
 }
 
 const transactionSchema = new Schema<TTransaction>({
@@ -15,6 +16,7 @@ const transactionSchema = new Schema<TTransaction>({
     date: {type: String,},
     location: {type: String, required: false},
     tagNotes: {type: String, required: false},
+    imageSrc: {type: String, requierd: false},
 },
     {_id: true}
 );
