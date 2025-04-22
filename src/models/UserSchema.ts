@@ -1,4 +1,4 @@
-import mongoose, {Schema, Document, Model} from "mongoose";
+import mongoose, {Schema, Document, Model, Types} from "mongoose";
 import { transactionSchema, TTransaction  } from "./transactionSchema";
 
 
@@ -10,7 +10,7 @@ export interface IUser {
     lastName:string;
     email: string;
     password: string;
-    transactions: TTransaction[];
+    transactions: Types.DocumentArray<TTransaction>;
 }
 
 const userSchema = new Schema<IUser>({

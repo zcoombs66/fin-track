@@ -15,11 +15,12 @@ export default  function TransactionHistory() {
 
     useEffect(() => {
         if(status === "unauthenticated") {
+            localStorage.setItem("redirectMessage", "Please sign in to access your transactions. ");
             router.push("/signin");
         }
     }, [status,router]);
 
-    if(status === "loading") {
+    if(status === "loading" || !session) {
         return <div>Loading...</div>
     }
 

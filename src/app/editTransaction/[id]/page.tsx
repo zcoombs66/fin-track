@@ -1,27 +1,24 @@
 'use client'
 
-import './addtransaction.css';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import TransactionHeader from '../transactionheader/TransactionHeader';
+import TransactionHeader from '../../components/transactionheader/TransactionHeader';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { TTransaction } from '@/models/transactionSchema';
+import {useParams} from "next/navigation"
+import "../../components/addtransaction/AddTransaction.css"
 
 const logoPath = "/logo.png";
 
-export default function AddTransaction() {
-    const current = new Date();
+export default function EditTransactionPage() {
+    const {id} = useParams<{ id: string}>();
     const router = useRouter();
     const {data: session, status} = useSession();
+    const [transaction, setTransaction] = useState<TTransaction| null>(null);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if(status === "unauthenticated") {
-            router.push("/signin");
-        }
-    }, [status,router]);
 
-   
-    
     const [form, setForm] = useState<{
         amount: number | string; 
         depositWithdrawl: boolean; 
@@ -37,6 +34,50 @@ export default function AddTransaction() {
 
     })
 
+    useEffect(() => {
+        if(status === "unauthenticated") {
+            router.push("/signin");
+        }
+
+        async function fetchTransaction() {
+            const response = await fetch(`/api/transactions/${id}`)
+            console.log(response)
+            if(response.ok) {
+                const transaction = await response.json();
+                console.log("Transaction data: ", transaction);
+                setTransaction(transaction);
+                setLoading(false);
+                
+            } else {
+                console.error("Failed to fetch transaction");
+                setLoading(false);
+            }
+            setLoading(false);
+        }
+        if(status === 'authenticated') {
+            fetchTransaction();
+        }
+
+    }, [id,status]);
+
+    useEffect(() => {
+        if (transaction) {
+           
+            setForm({
+                amount: Math.abs(transaction.amount),
+                depositWithdrawl: transaction.amount > 0 ? true : false,
+                date: transaction.date,
+                location: transaction.location,
+                tagNotes: transaction.tagNotes
+            });
+
+        }
+    }, [transaction]);
+
+   
+    
+   
+
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const {name, value, type} = e.target;
         setForm({
@@ -48,6 +89,7 @@ export default function AddTransaction() {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         
+        if(!transaction) return;
 
         const preparedForm = {
             ...form,
@@ -57,15 +99,18 @@ export default function AddTransaction() {
         // Hanle form information here
         console.log("Form submitted: ", preparedForm)
 
+        
         try {
-            const response = await fetch('/api/transactions', {
-                method: 'POST',
+            const response = await fetch(`/api/transactions/${transaction._id}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(preparedForm),
 
             });
+
+            console.log(response);
 
             if(!response.ok) {
                 throw new Error (`Failed to submit: ${response.status}`);
@@ -80,11 +125,13 @@ export default function AddTransaction() {
         }
     }
     
+    
+    
     return (
         <div className='add-transaction-container'>
             <TransactionHeader />
             <div className='form-container'>
-                <h1>Add Transaction</h1>
+                <h1>Edit Transaction</h1>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="amount">Amount ($)</label>
                     <input 

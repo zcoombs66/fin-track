@@ -16,8 +16,13 @@ export async function doCredentialLogin(formData: FormData): Promise<any> {
             password,
             redirect: false,
         });
+        if (!response) {
+            throw new Error(response?.error || "Login failed. Please try again. ")
+        }
         return response;
     } catch (err: any) {
-        throw err;
+        console.error(err);
+        throw new Error("An error occured during login. Please check your credentials.");
+
     }
 }
