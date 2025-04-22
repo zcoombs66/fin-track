@@ -10,20 +10,64 @@ interface RouteParams {
     params: {id: string};
 }
 
-export async function GET(request:NextRequest, { params }:RouteParams) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
+    const session = await auth();
+    if (!session || !session.user?.email) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     const { id } = await params;
     await connectMongoDB();
-    const item = await Transaction.findOne({_id: id });
-    return NextResponse.json({ item }, { status: 200 });
+
+    const user = await User.findOne({ email: session.user.email });
+    if (!user) {
+        return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+    const transaction = user.transactions.id(id); // Mongoose subdocument lookup
+    if (!transaction) {
+        return NextResponse.json({ message: "Transaction not found" }, { status: 404 });
+    }
+    
+
+    return new Response(JSON.stringify(transaction), {
+        status: 200,
+        headers: { "Content-Type": "application/json"},
+    })}
+
+
+export async function PUT(request: NextRequest, { params }: RouteParams) {
+    const session = await auth();
+    if (!session || !session.user?.email) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    const { id } = params;
+    const { amount, debitCredit, date, location, tagNotes } = await request.json();
+    await connectMongoDB();
+
+    console.log("HERRRRRRRRRRRRE");
+    const user = await User.findOne({ email: session.user.email });
+    if (!user) {
+        return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    const transaction = user.transactions.id(id); // Mongoose subdoc helper
+    if (!transaction) {
+        return NextResponse.json({ message: "Transaction not found" }, { status: 404});
+    }
+
+    // Update the fields
+    transaction.amount = amount;
+    transaction.debitCredit = debitCredit;
+    transaction.date = date;
+    transaction.location = location;
+    transaction.tagNotes = tagNotes;
+
+    await user.save();
+
+    return NextResponse.json({ message: "Transaction updated" }, { status: 200 });
 }
 
-export async function PUT(request:NextRequest, { params }:RouteParams) {
-    const { id } = await params;
-    const { amount: amount, debitCredit: debitCredit, date: date, location: location, tagNotes: tagNotes} = await request.json();
-    await connectMongoDB();
-    await Transaction.findByIdAndUpdate(id, {amount, debitCredit, date, location, tagNotes});
-    return NextResponse.json({ message: "Item updated"}, {status: 200});
-}
 
 export async function DELETE(request: NextRequest,{ params }:RouteParams) {
     const session = await auth();
@@ -45,14 +89,14 @@ export async function DELETE(request: NextRequest,{ params }:RouteParams) {
         return NextResponse.json({ message: "User not found"}, {status: 404});
     }
 
-    const initialLength = user.transactions.length;
-    user.transactions = user.transactions.filter(
-        (eg) => eg._id!.toString() != id
-    );  
+    const transactionToDelete = user.transactions.id(id);
 
-    if (user.transactions.length === initialLength) {
-        return NextResponse.json({message: "Transaction not found" }, {status: 404});
+    if(!transactionToDelete) {
+        return NextResponse.json({ message: "Transaction not found"}, {status: 404});
     }
+
+
+    transactionToDelete.deleteOne();
 
 
 

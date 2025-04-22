@@ -38,11 +38,14 @@ export async function doCredentialLogin(formData: FormData): Promise<{ success: 
             password,
             redirect: false,
         });
-        console.log("Login Response: ", response);
+        if (!response) {
+            throw new Error(response?.error || "Login failed. Please try again. ")
+        }
         return response;
         */
     } catch (err: any) {
-        console.error("Login Error: ", err);
-        throw err;
+        console.error(err);
+        throw new Error("An error occured during login. Please check your credentials.");
+
     }
 }

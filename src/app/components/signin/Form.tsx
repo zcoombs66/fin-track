@@ -32,6 +32,8 @@ export default function Form() {
         });
     }
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
@@ -60,9 +62,9 @@ export default function Form() {
             const response = await doCredentialLogin(form);
 
             if (response?.error) {
-                alert(response.error);
+               setError(response.error)
             } else {
-                console.log("Logged In");
+                // console.log("Logged In");
                 router.push("/transactionhistory");
             }
 
@@ -70,6 +72,8 @@ export default function Form() {
             console.error(error);
             setError("Check your Credentials");
             
+        } finally {
+            setIsSubmitting(false);
         }
         */
         // Handle signin here
@@ -109,7 +113,9 @@ export default function Form() {
                     <label htmlFor="remember" className="p-2 !bg-gray-100">Keep me logged in</label>
                 </div>
                 
-                <button type="submit">Sign In</button>
+                <button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Signing in..." : "Sign in"}
+                    </button>
             </form>
         </div>
     )

@@ -1,6 +1,5 @@
 'use client'
 
-import { errorToJSON } from "next/dist/server/render";
 import { useRouter } from "next/navigation";
 import React from "react"
 import { useState } from "react";
@@ -33,11 +32,16 @@ export default function Form() {
         })
     }
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        setIsSubmitting(true);
+        setError("");
 
         // Handle signin here
-        console.log("Form Submitted: ", form);
+        // console.log("Form Submitted: ", form);
 
         try {
             const response = await fetch('/api/users', {
@@ -50,7 +54,8 @@ export default function Form() {
 
             if (!response.ok) {
                 // throw new Error('ERROR');
-                setError("An error occurrred");
+                setError("An error occurrred while adding user");
+                return;
             }
 
             const data = await response.json();
@@ -61,7 +66,9 @@ export default function Form() {
             
         } catch (error) {
             console.error("Error in CreateUser!", error);
-            setError("Cheack Credentials");
+            setError("Cheack your Credentials");
+        } finally{
+            setIsSubmitting(false);
         }
         
 
@@ -70,7 +77,7 @@ export default function Form() {
     
     return (
         <div>
-            {error && <p className="text-red-500"> {error}</p>}
+            {error && <p className="text-red-500 mb-4 text-center"> {error}</p>}
             <form onSubmit={handleSubmit}>
                 <label htmlFor="email">Email</label>
                 <input
@@ -116,9 +123,11 @@ export default function Form() {
                         className="p-2"
                         required
                     />
-                    <label htmlFor="remember" className="p-2 !bg-gray-100">I have read and accept the Terms of Service</label>
+                    <label htmlFor="tos" className="p-2 !bg-gray-100">I have read and accept the Terms of Service</label>
                 </div>
-                <button type='submit' className='w-fill'>Register</button>
+                <button type='submit' className='w-fill'>
+                    {isSubmitting ? "Registering..." : "Register"}
+                    </button>
 
             </form>
         </div>
