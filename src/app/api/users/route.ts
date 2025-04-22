@@ -8,22 +8,23 @@ import Transaction from "../../../models/transactionSchema"
 import bcrypt from 'bcryptjs';
 
 
-// export async function GET(request: NextRequest) {
+ export async function GET(request: NextRequest) {
+     await connectMongoDB();
+     const items = await User.find();
+     return NextResponse.json({items});
 
-//     await connectMongoDB();
-//     const items = await User.find();
-//     return NextResponse.json({items});
-
-// }
+ }
 
 export async function POST(request: NextRequest) {
 
     const {firstName, lastName, email, password, transactions} = await request.json();
+
     await connectMongoDB();
     const existing = await User.findOne({email});
     if(existing) return new Response("User exists", {status:400});
 
     const hashedPassword = await bcrypt.hash(password, 5);
+
     const newUser = {
         firstName,
         lastName,

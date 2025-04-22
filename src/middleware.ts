@@ -15,7 +15,7 @@ const middleware = async (request: NextRequest) => {
     const isAuthenticated = !!session?.user;
     console.log(isAuthenticated, pathname);
 
-    const publicPaths = ["/", "/about","/contact", "/signin", "/signup"];
+    const publicPaths = ["/", "/about","/contact", "/signin", "/signup", "/demotransactionhistory"];
 
     if(!isAuthenticated && !publicPaths.includes(pathname)) {
         return NextResponse.redirect(new URL("/", request.url));

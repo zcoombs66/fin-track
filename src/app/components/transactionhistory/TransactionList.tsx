@@ -3,6 +3,7 @@
 import { auth } from '@/auth';
 import { useEffect, useState } from 'react';
 import Transaction from './Transaction';
+import { on } from 'events';
 
 type Transaction = {
     _id: string;
@@ -13,10 +14,11 @@ type Transaction = {
     tagNotes: string;
 };
 
+type transactionListProps = {
+    onBalanceChange: (balance: number) => void;
+}
 
-
-export default  function TransactionList({userEmail}: {userEmail?: string}) {
-    
+export default function TransactionList({ userEmail, onBalanceChange }: { userEmail?: string; onBalanceChange?: (balance: number) => void }) {   
 
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
@@ -37,6 +39,15 @@ export default  function TransactionList({userEmail}: {userEmail?: string}) {
                     location: item.location,
                     tagNotes: item.tagNotes,
                 }));
+                
+                const balance = parsedTransactions.reduce((acc, transaction) => {
+                    const amount = Number(transaction.amount);
+                    return transaction.depositWithdrawl ? acc - amount : acc + amount;
+                }, 0)
+
+                if(onBalanceChange) onBalanceChange(balance);
+                
+                console.log("Balance: ", balance);
 
                 setTransactions(parsedTransactions);
             } catch (error) {
