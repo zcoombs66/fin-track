@@ -65,7 +65,7 @@ export default function TransactionList({ userEmail, onBalanceChange }: { userEm
     if (loading) return <p>Loading...</p>;
     
     return (
-        <div className='px-20 py-6 w-auto'>
+        <div className='px-1 py-6 w-auto'>
             {transactions.map((trans) => (
                 <Transaction key={trans._id} transaction={trans}/>
             ))}

@@ -43,7 +43,7 @@ export default function Transaction({ transaction }: TransactionProps) {
                 </div>
             </div>
             <div className="date-contaienr">
-                <h1 className="font-semibold text-3xl">{formattedDate}</h1>
+                <h1 className="font-semibold text-2xl">{formattedDate}</h1>
             </div>
         </div>
           
