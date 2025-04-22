@@ -16,16 +16,18 @@ export default function DemoTransactionHistory() {
             amount: -100,
             depositWithdrawl: false,
             date: "2025-04-01",
-            location: "Grocery Store",
+            location: "Kroger",
             tagNotes: "Groceries",
+            imageSrc: "https://api-ninjas-data.s3.us-west-2.amazonaws.com/logos/l8fecf36b4f3554e59e52da1613a0b42029aeefae.png",
         },
         {
             _id: "2",
             amount: 50,
             depositWithdrawl: true,
             date: "2025-04-02",
-            location: "ATM",
-            tagNotes: "Cash Withdrawal",
+            location: "American Express",
+            tagNotes: "ATM Cash Withdrawal",
+            imageSrc: "https://api-ninjas-data.s3.us-west-2.amazonaws.com/logos/lbaec25f1ae8fc6dc7bf9cf45a764b6f1544aa93a.png",
         },
     ];
 
@@ -36,7 +38,7 @@ export default function DemoTransactionHistory() {
        
     }, []);
 
-    const balance = transactions.reduce((acc, t) => (t.depositWithdrawl ? acc - t.amount : acc + t.amount), 0);
+    const balance = transactions.reduce((acc, t) => (acc + t.amount), 0);
 
     return (
         <div className="transaction-history-container p-3">
