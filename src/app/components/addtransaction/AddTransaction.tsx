@@ -9,7 +9,7 @@ import { useSession } from 'next-auth/react';
 import {createClient} from 'pexels';
 
 const logoPath = "/logo.png";
-const client = createClient('5IrRwYdWiltrRomSXmsEbgSKM3Jz9fUReoVYIMXkXPKjMbDvmAeaAJMr')
+const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
 export default function AddTransaction() {
     const current = new Date();
@@ -41,49 +41,70 @@ export default function AddTransaction() {
 
     })
 
+    const [imageLoading, setImageLoading] = useState(false);
+
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const {name, value, type} = e.target;
+        const { name, value, type } = e.target;
+
         if (name === 'location') {
-            // Update form first
-            setForm(prev => ({ ...prev, location: value }));
-    
-            // Then fetch image after a small delay to debounce typing
-            const delayFetch = setTimeout(() => {
-                fetchImage(value + ' logo').then(img => {
-                    if (img) {
-                        setForm(prev => ({ ...prev, imageSrc: img }));
-                    }
-                });
-            }, 300);
-    
-            return () => clearTimeout(delayFetch); // Cleanup if user keeps typing
+            setForm((prev) => ({ ...prev, location: value }));
+        } else {
+            setForm({
+                ...form,
+                [name]: type === 'radio' && name === 'depositWithdrawl' ? value === 'true' : value
+            });
         }
-
-
-
-        setForm({
-            ...form,
-            [name]: type === 'radio' && name === 'depositWithdrawl' ? value === 'true' : value
-        })
-
-        
     }
 
+    useEffect(() => {
+        if (form.location) {
+            const timeoutId = setTimeout(() => {
+                fetchImage(form.location);
+            }, 300); 
+
+            return () => clearTimeout(timeoutId); 
+        }
+    }, [form.location]);
+
     async function fetchImage(query: string) {
+        setImageLoading(true);
+        
         try {
-            const result = await client.photos.search({query, per_page: 1});
-            if ('photos' in result && result.photos.length > 0) {
-                const firstImage = result.photos[0].src.medium;
-                console.log(firstImage);
-                return firstImage;
+            const response = await fetch(`https://api.api-ninjas.com/v1/logo?name=${encodeURIComponent(query)}`, {
+                method: 'GET',
+                headers: {
+                    'X-Api-Key': apiKey as string,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
+    
+            const result = await response.json();
+            console.log(result); // result[0].image or similar depending on API response
+    
+            if (result && result.length > 0) {
+                setForm(prev => ({
+                    ...prev,
+                    imageSrc: result[0].image
+                }));
             } else {
-                console.error("No images found or error response recieved");
-                return null
+                setForm((prev) => ({
+                    ...prev,
+                    imageSrc: logoPath
+                }))
             }
         } catch (error) {
             console.error("Image fetch failed: ", error);
-            return null;
+            setForm((prev) => ({
+                ...prev,
+                imageSrc: logoPath // Fallback in case of an error
+            }));
+
+        } finally {
+            setImageLoading(false);
         }
+         
     }
 
 
@@ -91,7 +112,7 @@ export default function AddTransaction() {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const searchParam = form.location + " logo";
+        const searchParam = form.location;
         console.log(searchParam);
         const src = await fetchImage(searchParam);
         
@@ -99,7 +120,7 @@ export default function AddTransaction() {
         const preparedForm = {
             ...form,
             amount: form.depositWithdrawl ? Math.abs(Number(form.amount)) : -Math.abs(Number(form.amount)), 
-            imageSrc: src || ""
+            
         };
 
 
@@ -193,7 +214,10 @@ export default function AddTransaction() {
                             style={{ maxWidth: '100%', borderRadius: '10px', maxHeight: '200px', objectFit: 'contain' }} 
                         />
                     </div>
-                )}
+                    )}
+                    {imageLoading && (
+                        <p>Loading image...</p>
+                    )}
 
                     <label htmlFor="tag / notes">Tag / Notes</label>
                     <input 
