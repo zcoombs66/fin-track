@@ -22,7 +22,7 @@ export default function NavBar() {
 
     return (
         <div className='navbar-container'>
-            <Image src={logoPath} alt="img-placeholder" width={40} height={10}/>
+            <Image src={logoPath} alt="img-placeholder" width={50} height={50}/>
             <div className='button-container'>
                 <div className='links-container'>
                     <button onClick={() => router.push('/')}>Home</button>

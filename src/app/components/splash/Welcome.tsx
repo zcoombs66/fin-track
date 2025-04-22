@@ -29,15 +29,7 @@ export default function Welcome() {
                     </div>
                 )}
             </div>
-            <div className='image-container'>
-                <Image 
-                    src={addTransactionImgPath} 
-                    alt='image of add transaction page'
-                    width={200}
-                    height={400}
-                    className='w-fill h-fill'
-                />
-            </div>
+            
         </div>
     );
 }

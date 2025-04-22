@@ -3,13 +3,8 @@
     justify-content: space-between;
     background-color: var(--header);
     color: black;
-    padding: 15px;
+    padding: 1em;
     font-size: small;
-}
-
-.logo {
-    height: 8px;
-    width: 8px;
 }
 
 .button-container {
@@ -22,10 +17,10 @@
 }
 
 .links-container button {
-    padding: 5px;
-    border-radius: 5px;
-    margin: 5px
-
+    padding: .5em;
+    border-radius: .5em;
+    padding: .5em;
+    text-align: center;
 }
 
 .links-container button:hover {
