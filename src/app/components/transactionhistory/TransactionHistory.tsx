@@ -28,7 +28,7 @@ export default  function TransactionHistory() {
     console.log("Status: ", status);
 
     return (
-        <div className="transaction-history-container p-3">
+        <div className="transaction-history-container">
             <TransactionHeader />
             <div className="transaction-info items-end  text-xl p-3">
                 <h1 className="balance-item">Balance : ${balance}</h1>
