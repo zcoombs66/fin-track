@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { TTransaction } from '@/models/transactionSchema';
 import {useParams} from "next/navigation"
-import "../../components/addtransaction/AddTransaction.css"
+import "../../components/addtransaction/addtransaction.css"
 
 const logoPath = "/logo.png";
 

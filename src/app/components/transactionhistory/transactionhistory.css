@@ -13,3 +13,13 @@ background-color: white;
 .transactions-container > * {
     margin: 1em;
 }
+
+.transaction-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.balancce-item {
+    font-size: larger;
+}

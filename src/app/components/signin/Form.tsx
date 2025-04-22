@@ -6,6 +6,7 @@ import NextAuth from "next-auth";
 import { SessionTokenError } from "@auth/core/errors";
 import { doCredentialLogin } from "@/app/actions";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function Form() {
     const [error, setError] = useState('');
@@ -35,10 +36,27 @@ export default function Form() {
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
-        setIsSubmitting(true);
-        setError("");
+        const formData = new FormData(e.currentTarget);
+        const response = doCredentialLogin(formData);
 
+        if (!(await response).success) {
+            setError((await response).error || "Invalid login");
+            return;
+        }
+    
+        const result = await signIn("credentials", {
+            email: form.email,
+            password: form.password,
+            redirect: false,
+        });
+    
+        if (result?.error) {
+            setError("Login failed");
+        } else {
+            router.push("/transactionhistory");
+        }
 
+        /*
         try {
             const form = new FormData(e.currentTarget);
             const response = await doCredentialLogin(form);
@@ -49,8 +67,6 @@ export default function Form() {
                 // console.log("Logged In");
                 router.push("/transactionhistory");
             }
-            
-
 
         } catch(error: any) {
             console.error(error);
@@ -59,10 +75,7 @@ export default function Form() {
         } finally {
             setIsSubmitting(false);
         }
-
-
-
-
+        */
         // Handle signin here
         console.log("Form Submitted:H ", form);
     }

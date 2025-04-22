@@ -61,7 +61,7 @@ export default function Form() {
             const data = await response.json();
             console.log("User added: ", data);
             
-            router.push("/");
+            router.push("/signin");
 
             
         } catch (error) {
