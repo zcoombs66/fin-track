@@ -13,7 +13,7 @@ export default function DemoTransactionHistory() {
     const initialTransactions = [
         {
             _id: "1",
-            amount: 100,
+            amount: -100,
             depositWithdrawl: false,
             date: "2025-04-01",
             location: "Grocery Store",
@@ -31,16 +31,9 @@ export default function DemoTransactionHistory() {
 
     const [transactions, setTransactions] = useState<any[]>([]);
 
-    // Load transactions from localStorage or use initial transactions
     useEffect(() => {
-        const storedTransactions = localStorage.getItem('demoTransactions');
-        if (storedTransactions) {
-            setTransactions(JSON.parse(storedTransactions));
-        } else {
-            // If no transactions are in localStorage, use the initial transactions
-            setTransactions(initialTransactions);
-            localStorage.setItem('demoTransactions', JSON.stringify(initialTransactions));
-        }
+        setTransactions(initialTransactions);
+       
     }, []);
 
     const balance = transactions.reduce((acc, t) => (t.depositWithdrawl ? acc - t.amount : acc + t.amount), 0);
@@ -53,18 +46,20 @@ export default function DemoTransactionHistory() {
                 <div>
                     <h1 className="pt-8 pb-2">Transaction History</h1>
                     <button
-                        onClick={() => router.push('/demo/demoaddtransaction')}
+                        
                         className="bg-blue-700 rounded-lg p-1 hover:bg-blue-500"
                     >
                         Add Transaction
                     </button>
                 </div>
             </div>
-            <div className="transactions-container">
+            <fieldset disabled>
+            <div className="transactions-container" >
                 {transactions.map((transaction) => (
                     <Transaction key={transaction._id} transaction={transaction} />
                 ))}
             </div>
+            </fieldset>
         </div>
     );
 }

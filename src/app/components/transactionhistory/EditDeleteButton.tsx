@@ -32,7 +32,6 @@ export default function EditDeleteButton({ transactionId }: Props) {
     }
 
     async function handleEdit() {
-        console.log("Transaction ID ", transactionId);
         router.push(`editTransaction/${transactionId}`);
 
     }

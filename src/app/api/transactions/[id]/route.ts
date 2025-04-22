@@ -45,7 +45,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const { amount, debitCredit, date, location, tagNotes } = await request.json();
     await connectMongoDB();
 
-    console.log("HERRRRRRRRRRRRE");
     const user = await User.findOne({ email: session.user.email });
     if (!user) {
         return NextResponse.json({ message: "User not found" }, { status: 404 });
