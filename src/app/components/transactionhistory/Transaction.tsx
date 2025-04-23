@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Card from "../card/Card";
 import EditDeleteButton from "./EditDeleteButton"
 import './transaction.css'
 import './transactioninformation.css'
@@ -27,7 +28,7 @@ export default function Transaction({ transaction }: TransactionProps) {
     console.log("IMAGE SRC IN TRANSAXTION", imageSrc)
     
     return (
-        <div className="transaction-container">
+        <Card>
             <div className="image-and-info-container">
                 <Image 
                     src={logoPath} 
@@ -42,10 +43,10 @@ export default function Transaction({ transaction }: TransactionProps) {
                     <EditDeleteButton transactionId={transaction._id}/>
                 </div>
             </div>
-            <div className="date-contaienr">
+            <div className="date-contaienr p-1">
                 <h1 className="font-semibold text-2xl">{formattedDate}</h1>
             </div>
-        </div>
+        </Card>
           
     )
 }
