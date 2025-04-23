@@ -1,9 +1,7 @@
-import About from "../components/about/About";
+import About from "@/app/components/about/About";
 
-export default function Home() {
-    return (
-        <div>
-            <About />
-        </div>
-    )
+export default function AboutPage() {
+  return <About />;
 }
+
+  
