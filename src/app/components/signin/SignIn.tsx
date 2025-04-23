@@ -4,20 +4,33 @@ import './Sign.css';
 import LoginHeader from '../loginheader/LoginHeader';
 import { useRouter } from 'next/navigation';
 import Form from '../signIn/Form';
+import { useEffect, useState } from 'react';
 
 const logoPath = '/logo.png';
 export default function SignIn() {
     const router = useRouter();
+
+    const [redirectMessage, setRedirectMessage] = useState("");
+
+    useEffect(() => {
+        const message = localStorage.getItem("redirectMessage");
+        if (message) {
+            setRedirectMessage(message);
+            localStorage.removeItem("redirectMessage");
+        }
+    })
+
+
     return (
         <div className='sign-container'>
             <LoginHeader />
+            {redirectMessage && <p className='text-red-500'>{redirectMessage}</p>}
             <div className='form-wrapper'>
                 <div className='form-container'>
                     <h1 className='p-2 text-left text-7xl font-bold'>Sign In</h1>
                     <h2 className='text-gray-400 text-left m-4'>Please login to continue to your account</h2>
                    <div className='sign-button-container flex-col '>
                         <Form />
-                        <button type='submit' className='w-fill' onClick={() => router.push('/transactionhistory')}>Sign in</button>
                     </div>
                 </div>
             </div>     

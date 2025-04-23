@@ -1,141 +1,116 @@
 'use client'
 
-import './addtransaction.css';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import TransactionHeader from '../transactionheader/TransactionHeader';
+import TransactionHeader from '../../components/transactionheader/TransactionHeader';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import {createClient} from 'pexels';
+import { TTransaction } from '@/models/transactionSchema';
+import {useParams} from "next/navigation"
+import "../../components/addtransaction/addtransaction.css"
 
 const logoPath = "/logo.png";
-const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
-export default function AddTransaction() {
-    const current = new Date();
+export default function EditTransactionPage() {
+    const {id} = useParams<{ id: string}>();
     const router = useRouter();
     const {data: session, status} = useSession();
+    const [transaction, setTransaction] = useState<TTransaction| null>(null);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        if(status === "unauthenticated") {
-            router.push("/signin");
-        }
-    }, [status,router]);
 
-   
-    
     const [form, setForm] = useState<{
         amount: number | string; 
         depositWithdrawl: boolean; 
         date: string; 
         location: string;
         tagNotes: string;
-        imageSrc: string;
     }>({
         amount: "",
         depositWithdrawl: true,
         date: "", // `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
         location: "",
-        tagNotes: "",
-        imageSrc: ""
+        tagNotes: ""
 
     })
 
-    const [imageLoading, setImageLoading] = useState(false);
-
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const { name, value, type } = e.target;
-
-        if (name === 'location') {
-            setForm((prev) => ({ ...prev, location: value }));
-        } else {
-            setForm({
-                ...form,
-                [name]: type === 'radio' && name === 'depositWithdrawl' ? value === 'true' : value
-            });
+    useEffect(() => {
+        if(status === "unauthenticated") {
+            router.push("/signin");
         }
-    }
+
+        async function fetchTransaction() {
+            const response = await fetch(`/api/transactions/${id}`)
+            console.log(response)
+            if(response.ok) {
+                const transaction = await response.json();
+                console.log("Transaction data: ", transaction);
+                setTransaction(transaction);
+                setLoading(false);
+                
+            } else {
+                console.error("Failed to fetch transaction");
+                setLoading(false);
+            }
+            setLoading(false);
+        }
+        if(status === 'authenticated') {
+            fetchTransaction();
+        }
+
+    }, [id,status]);
 
     useEffect(() => {
-        if (form.location) {
-            const timeoutId = setTimeout(() => {
-                fetchImage(form.location);
-            }, 300); 
-
-            return () => clearTimeout(timeoutId); 
-        }
-    }, [form.location]);
-
-    async function fetchImage(query: string) {
-        setImageLoading(true);
-        
-        try {
-            const response = await fetch(`https://api.api-ninjas.com/v1/logo?name=${encodeURIComponent(query)}`, {
-                method: 'GET',
-                headers: {
-                    'X-Api-Key': apiKey as string,
-                    'Content-Type': 'application/json'
-                }
+        if (transaction) {
+           
+            setForm({
+                amount: Math.abs(transaction.amount),
+                depositWithdrawl: transaction.amount > 0 ? true : false,
+                date: transaction.date,
+                location: transaction.location,
+                tagNotes: transaction.tagNotes
             });
-    
-            if (!response.ok) throw new Error(`Error: ${response.status}`);
-    
-            const result = await response.json();
-            console.log(result); // result[0].image or similar depending on API response
-    
-            if (result && result.length > 0) {
-                setForm(prev => ({
-                    ...prev,
-                    imageSrc: result[0].image
-                }));
-            } else {
-                setForm((prev) => ({
-                    ...prev,
-                    imageSrc: logoPath
-                }))
-            }
-        } catch (error) {
-            console.error("Image fetch failed: ", error);
-            setForm((prev) => ({
-                ...prev,
-                imageSrc: logoPath // Fallback in case of an error
-            }));
 
-        } finally {
-            setImageLoading(false);
         }
-         
+    }, [transaction]);
+
+   
+    
+   
+
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const {name, value, type} = e.target;
+        setForm({
+            ...form,
+            [name]: type === 'radio' && name === 'depositWithdrawl' ? value === 'true' : value
+        })
     }
-
-
-
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        const searchParam = form.location;
-        console.log(searchParam);
-        const src = await fetchImage(searchParam);
         
-       
+        if(!transaction) return;
+
         const preparedForm = {
             ...form,
             amount: form.depositWithdrawl ? Math.abs(Number(form.amount)) : -Math.abs(Number(form.amount)), 
-            
-        };
-
+        }
 
         // Hanle form information here
         console.log("Form submitted: ", preparedForm)
 
+        
         try {
-            const response = await fetch('/api/transactions', {
-                method: 'POST',
+            const response = await fetch(`/api/transactions/${transaction._id}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(preparedForm),
 
             });
+
+            console.log(response);
 
             if(!response.ok) {
                 throw new Error (`Failed to submit: ${response.status}`);
@@ -150,11 +125,13 @@ export default function AddTransaction() {
         }
     }
     
+    
+    
     return (
         <div className='add-transaction-container'>
             <TransactionHeader />
             <div className='form-container'>
-                <h1>Add Transaction</h1>
+                <h1>Edit Transaction</h1>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="amount">Amount ($)</label>
                     <input 
@@ -205,20 +182,6 @@ export default function AddTransaction() {
                         placeholder="Store"
                         required
                     />
-                    {form.imageSrc && (
-                    <div style={{ marginTop: '1rem' }}>
-                        <p style={{ fontWeight: 'bold' }}>Preview:</p>
-                        <img 
-                            src={form.imageSrc} 
-                            alt="Location preview" 
-                            style={{ maxWidth: '100%', borderRadius: '10px', maxHeight: '200px', objectFit: 'contain' }} 
-                        />
-                    </div>
-                    )}
-                    {imageLoading && (
-                        <p>Loading image...</p>
-                    )}
-
                     <label htmlFor="tag / notes">Tag / Notes</label>
                     <input 
                         name='tagNotes'
@@ -227,8 +190,6 @@ export default function AddTransaction() {
                         placeholder="tag / notes"
                         required
                     />
-                    
-                    
                    <div className='add-transaction-button-container'>
                         <button type='submit'>Submit</button>
                         <button onClick={() => router.push('/transactionhistory')} type='reset'>Cancel</button>

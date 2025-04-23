@@ -1,21 +1,26 @@
 'use client'
 
+import { useRouter } from "next/navigation";
 import React from "react"
 import { useState } from "react";
 
 export default function Form() {
+    const [error, setError] = useState('');
+
+    const router = useRouter();
+
     const [form, setForm] = useState<{
-        username: string;
+        email: string;
         password: string;
         firstName: string;
         lastName: string;
-        remember: boolean;
+        tos: boolean;
     }>({
-        username: 'fin@gmail.com',
-        password:'Password',
-        firstName: 'John',
-        lastName: 'Smith',
-        remember: false
+        email: '',
+        password:'',
+        firstName: '',
+        lastName: '',
+        tos: false
     })
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -27,22 +32,60 @@ export default function Form() {
         })
     }
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+        setIsSubmitting(true);
+        setError("");
 
         // Handle signin here
-        console.log("Form Submitted: ", form);
+        // console.log("Form Submitted: ", form);
+
+        try {
+            const response = await fetch('/api/users', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(form),
+            });
+
+            if (!response.ok) {
+                // throw new Error('ERROR');
+                setError("An error occurrred while adding user");
+                return;
+            }
+
+            const data = await response.json();
+            console.log("User added: ", data);
+            
+            router.push("/signin");
+
+            
+        } catch (error) {
+            console.error("Error in CreateUser!", error);
+            setError("Cheack your Credentials");
+        } finally{
+            setIsSubmitting(false);
+        }
+        
+
     }
     
     
     return (
         <div>
+            {error && <p className="text-red-500 mb-4 text-center"> {error}</p>}
             <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
+                <label htmlFor="email">Email</label>
                 <input
-                    name="username"
-                    value={form.username}
+                    name="email"
+                    value={form.email}
                     onChange={handleChange}
+                    placeholder="fin@gmail.com"
+                    required
                 />
                 <label htmlFor="password">Password</label>
                 <input 
@@ -50,6 +93,8 @@ export default function Form() {
                     name="password"
                     value={form.password}
                     onChange={handleChange}
+                    placeholder="Password"
+                    required
                 />
                 <label htmlFor="firstName">First Name</label>
                 <input 
@@ -57,6 +102,8 @@ export default function Form() {
                     name="firstName"
                     value={form.firstName}
                     onChange={handleChange}
+                    placeholder="John"
+                    required
                 />
                 <label htmlFor="password">Last Name</label>
                 <input 
@@ -64,17 +111,24 @@ export default function Form() {
                     name="lastName"
                     value={form.lastName}
                     onChange={handleChange}
+                    placeholder="Smith"
+                    required
                 />
                 <div className="flex-row m-2 p-2">
                     <input
                         type="checkbox"
-                        name="remember"
-                        checked={form.remember}
+                        name="tos"
+                        checked={form.tos}
                         onChange={handleChange}
                         className="p-2"
+                        required
                     />
-                    <label htmlFor="remember" className="p-2 !bg-gray-100">I have read and accept the Terms of Service</label>
+                    <label htmlFor="tos" className="p-2 !bg-gray-100">I have read and accept the Terms of Service</label>
                 </div>
+                <button type='submit' className='w-fill'>
+                    {isSubmitting ? "Registering..." : "Register"}
+                    </button>
+
             </form>
         </div>
     )

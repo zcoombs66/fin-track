@@ -2,7 +2,7 @@
 display: flex;
 flex-direction: column;
 text-align: right;
-background-color: white;
+background-color: var(--background);
 }
 
 .transaction-history-container > button {
@@ -12,4 +12,14 @@ background-color: white;
 
 .transactions-container > * {
     margin: 1em;
+}
+
+.transaction-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.balancce-item {
+    font-size: larger;
 }

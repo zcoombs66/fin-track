@@ -2,17 +2,26 @@
 
 import React from "react"
 import { useState } from "react";
+import NextAuth from "next-auth";
+import { SessionTokenError } from "@auth/core/errors";
+import { doCredentialLogin } from "@/app/actions";
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function Form() {
+    const [error, setError] = useState('');
+
+    const router = useRouter();
+
     const [form, setForm] = useState<{
-        username: string;
+        email: string;
         password: string;
         remember: boolean;
     }>({
-        username: 'fin@gmail.com',
-        password:'Password',
-        remember: false
-    })
+        email: '',
+        password:'',
+        remember: false,
+    });
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         const {name, value, type} = e.target;
@@ -20,25 +29,69 @@ export default function Form() {
         setForm({
             ...form,
             [name] : type === "checkbox" ? isChecked : value
-        })
+        });
     }
 
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const response = doCredentialLogin(formData);
+
+        if (!(await response).success) {
+            setError((await response).error || "Invalid login");
+            return;
+        }
+    
+        const result = await signIn("credentials", {
+            email: form.email,
+            password: form.password,
+            redirect: false,
+        });
+    
+        if (result?.error) {
+            setError("Login failed");
+        } else {
+            router.push("/transactionhistory");
+        }
+
+        /*
+        try {
+            const form = new FormData(e.currentTarget);
+            const response = await doCredentialLogin(form);
+
+            if (response?.error) {
+               setError(response.error)
+            } else {
+                // console.log("Logged In");
+                router.push("/transactionhistory");
+            }
+
+        } catch(error: any) {
+            console.error(error);
+            setError("Check your Credentials");
+            
+        } finally {
+            setIsSubmitting(false);
+        }
+        */
         // Handle signin here
-        console.log("Form Submitted: ", form);
+        console.log("Form Submitted:H ", form);
     }
     
     
     return (
         <div>
+            {error && <p className="text-red-500"> {error}</p>}
             <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
+                <label htmlFor="email">Email</label>
                 <input
-                    name="username"
-                    value={form.username}
+                    name="email"
+                    value={form.email}
                     onChange={handleChange}
+                    placeholder='fin@gmail.com'
+                    required
                 />
                 <label htmlFor="password">Password</label>
                 <input 
@@ -46,6 +99,8 @@ export default function Form() {
                     name="password"
                     value={form.password}
                     onChange={handleChange}
+                    placeholder="Password"
+                    required
                 />
                 <div className="flex-row m-2 p-2">
                     <input
@@ -57,6 +112,10 @@ export default function Form() {
                     />
                     <label htmlFor="remember" className="p-2 !bg-gray-100">Keep me logged in</label>
                 </div>
+                
+                <button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Signing in..." : "Sign in"}
+                    </button>
             </form>
         </div>
     )
