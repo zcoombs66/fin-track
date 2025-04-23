@@ -25,13 +25,13 @@ export default function TransactionHeader() {
         </div>
       
         
-        {status === "authenticated" && (
+        
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <p className="text-lg font-semibold text-black text-center name">
               Welcome, {status=== "authenticated" ? session.user?.firstName : "Guest"}
             </p>
           </div>
-        )}
+        
       
         
         <div className="flex space-x-2">
